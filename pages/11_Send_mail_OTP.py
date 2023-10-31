@@ -1,19 +1,12 @@
-import logging
-import math
 import random
 import smtplib
 import streamlit as st
-
-# Configurazione del logging
-logging.basicConfig(level=logging.INFO)
 
 def generate_otp_number():
     return ''.join(random.choices('0123456789', k=6))
 
 def generate_message(otp):
-    msg = f"{otp} is your OTP"
-    logging.info(f"Il messaggio che ti arriverà è: {msg}")
-    return msg
+    return f"{otp} is your OTP"
 
 def send_otp_email(email, msg):
     with smtplib.SMTP('smtp.gmail.com', 587) as s:
@@ -21,11 +14,12 @@ def send_otp_email(email, msg):
         s.login("mikele.golino@gmail.com", "gkwydzpcqybwharz")
         s.sendmail('&&&&&&&&&&&', email, msg)
 
-# Inizializzazione dello stato della sessione
-st.session_state.setdefault('otp', None)
-st.session_state.setdefault('simulated', None)
-st.session_state.setdefault('emailsended', None)
+def init_session_state():
+    st.session_state.setdefault('otp', None)
+    st.session_state.setdefault('simulated', None)
+    st.session_state.setdefault('emailsended', None)
 
+init_session_state()
 with st.spinner("Caricamento..."):
     email_id = st.text_input("Inserisci la tua mail")
     st.session_state['simulated'] = st.checkbox("Simula invio")
@@ -53,7 +47,6 @@ with st.spinner("Caricamento..."):
         
         if otp_code == st.session_state['otp']:
             st.success("OTP Verificato con successo", icon="✅")
-            st.session_state['otp'] = None
-            st.session_state['simulated'] = None
+            init_session_state()
         else:
             st.error("Verifica dell'OTP fallita")
