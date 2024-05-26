@@ -28,15 +28,18 @@ with st.spinner("Caricamento..."):
         st.session_state['otp'] = generate_otp_number()
         msg = generate_message(st.session_state['otp'])
         
-        if not st.session_state['simulated']:
-            send_otp_email(email_id, msg)
-            st.toast(f"Email inviata correttamente all'indirizzo {email_id}", icon="✅")
-        else:
-            st.write(f"Il codice OTP generato è {st.session_state['otp']}")
-            st.toast(f"Email inviata correttamente all'indirizzo blabla", icon="✅")
+        if not email_id:
+            st.error("Inserisci la tua mail")
+        else:    
+            if not st.session_state['simulated']:
+                send_otp_email(email_id, msg)
+                st.toast(f"Email inviata correttamente all'indirizzo {email_id}", icon="✅")
+            else:
+                st.write(f"Il codice OTP generato è {st.session_state['otp']}")
+                st.toast(f"Email inviata correttamente all'indirizzo {email_id}", icon="✅")
+            
+            st.session_state['emailsended'] = True
         
-        st.session_state['emailsended'] = True
-
     otp_code = st.text_input("Inserisci il tuo codice OTP")
 
     if not st.session_state['emailsended']:

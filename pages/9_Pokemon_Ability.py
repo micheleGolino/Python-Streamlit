@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 
 # Lista di Pokémon
-pokemon_list = ["pikachu", "charizard", "bulbasaur", "squirtle", "jigglypuff", "chikorita"]
+pokemon_list = ["pikachu", "charizard", "bulbasaur", "squirtle", "jigglypuff", "chikorita", "ditto", "eevee", "mew", "pichu", "pidgey"]
 
 def get_pokemon_abilities(pokemon):
     with st.spinner('Caricamento delle abilità del Pokémon...'):
